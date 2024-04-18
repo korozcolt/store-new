@@ -7,8 +7,13 @@ export default {
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
-    ],
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
+        'node_modules/preline/dist/*.js',
 
+    ],
+    darkMode: 'class',
     theme: {
         extend: {
             fontFamily: {
@@ -17,5 +22,8 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        require('preline/plugin'),
+    ],
 };
