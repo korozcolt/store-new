@@ -17,10 +17,18 @@ class ProductsPage extends Component
 
     use WithPagination;
 
+    #[Url()]
     public $selected_categories = [];
+    #[Url()]
     public $selected_brands = [];
+    #[Url()]
     public $selected_status_is_featured;
+    #[Url()]
     public $selected_status_on_sale;
+    #[Url()]
+    public $price_range = 100000;
+    #[Url()]
+    public $sort = 'latest';
 
     public function render()
     {
@@ -43,6 +51,19 @@ class ProductsPage extends Component
         if($this->selected_status_on_sale){
             $products->where('on_sale', 1);
         }
+
+        if($this->price_range){
+            $products->whereBetween('price', [0, $this->price_range]);
+        }
+
+        if($this->sort == 'latest'){
+            $products->latest();
+        }
+
+        if($this->sort == 'price'){
+            $products->orderBy('price');
+        }
+
 
         return view('livewire.products-page',
             [
