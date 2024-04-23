@@ -34,11 +34,8 @@ class ProductDetailPage extends Component
     }
 
     public function addToCart($product_id){
-        //add product to cart with quantity
-        $total_count = CartManagement::addItemToCart($product_id);
-
+        $total_count = CartManagement::addItemToCarWithQty($product_id, $this->quantity);
         $this->dispatch('updated-cart-count', total_count: $total_count)->to(Navbar::class);
-
         $this->alert('success', 'Product added to the cart successfully', [
             'position' => 'bottom-end',
             'timer' => 3000,

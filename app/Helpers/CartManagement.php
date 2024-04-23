@@ -12,24 +12,57 @@ class CartManagement{
         $existing_item = null;
 
         foreach($cart_items as $key => $item){
-            if($item['product_id'] == $product_id){
+            if(is_array($item) && $item['product_id'] == $product_id){
                 $existing_item = $key;
                 break;
             }
         }
 
         if($existing_item !== null){
-            $cart_items[$existing_item]['quantity'] ++;
+
+            $cart_items[$existing_item]['quantity']++;
             $cart_items[$existing_item]['total_amount'] = $cart_items[$existing_item]['quantity'] * $cart_items[$existing_item]['unit_amount'];
         }else{
-            $product = Product::where('id', $product_id)->first('id', 'name', 'price', 'images');
+            $product = Product::where('id', $product_id)->first();
             if($product){
                 $cart_items[] = [
                     'product_id' => $product->id,
                     'name' => $product->name,
-                    'unit_amount' => $product->price,
+                    'images' => $product->images[0] ?? '',
                     'quantity' => 1,
-                    'total_amount' => $product->price * 1,
+                    'unit_amount' => $product->price < $product->sale_price ? $product->sale_price : $product->price,
+                    'total_amount' => $product->price < $product->sale_price ? $product->sale_price : $product->price,
+                ];
+            }
+        }
+
+        self::addCartItemToCookie($cart_items);
+        return count($cart_items);
+    }
+
+    static public function addItemToCarWithQty($product_id, $quantity = 1){
+        $cart_items = self::getCartItemsFromCookies();
+        $existing_item = null;
+
+        foreach($cart_items as $key => $item){
+            if(is_array($item) && $item['product_id'] == $product_id){
+                $existing_item = $key;
+                break;
+            }
+        }
+
+        if($existing_item !== null){
+            $cart_items[$existing_item]['quantity'] = $quantity;
+            $cart_items[$existing_item]['total_amount'] = $cart_items[$existing_item]['quantity'] * $cart_items[$existing_item]['unit_amount'];
+        }else{
+            $product = Product::where('id', $product_id)->first();
+            if($product){
+                $cart_items[] = [
+                    'product_id' => $product->id,
+                    'name' => $product->name,
+                    'unit_amount' => $product->price ?? 0,
+                    'quantity' => $quantity,
+                    'total_amount' => $product->price ?? 0,
                     'images' => $product->images
                 ];
             }
