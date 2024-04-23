@@ -39,6 +39,18 @@
                             </div>
                         </div>
                         <div class="mt-4">
+                            <label class="block text-gray-700 dark:text-white mb-1" for="email">
+                                Email
+                            </label>
+                            <input
+                                class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none @error('email') border-red-700 @enderror"
+                                id="email" wire:model='email' type="email">
+                            </input>
+                            @error('phone')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                        </div>
+                        <div class="mt-4">
                             <label class="block text-gray-700 dark:text-white mb-1" for="phone">
                                 Phone
                             </label>
