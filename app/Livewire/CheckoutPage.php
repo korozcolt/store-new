@@ -3,8 +3,10 @@
 namespace App\Livewire;
 
 use App\Helpers\CartManagement;
+use App\Mail\OrderPlaced;
 use App\Models\Address;
 use App\Models\Order;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Stripe\Checkout\Session;
@@ -24,6 +26,13 @@ class CheckoutPage extends Component
     public $zip_code;
     public $country = 'Colombia';
     public $payment_method;
+
+    public function mount(){
+        $cart_items = CartManagement::getCartItemsFromCookies();
+        if(count($cart_items) == 0){
+            return redirect('/products');
+        }
+    }
 
     public function placeOrder(){
         $this->validate([
@@ -91,7 +100,6 @@ class CheckoutPage extends Component
             ]);
 
             $redirect_url = $sessionCheckout->url;
-
         }else{
             $redirect_url = route('success');
         }
@@ -102,6 +110,7 @@ class CheckoutPage extends Component
         $order->items()->createMany($cart_items);
         CartManagement::clearCartItemsFromCookies();
 
+        Mail::to(request()->user())->send(new OrderPlaced($order));
         return redirect($redirect_url);
     }
 

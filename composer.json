@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "epayco/epayco-php": "^1.6",
         "filament/filament": "3.2.57",
         "jantinnerezo/livewire-alert": "^3.0",
         "laravel/breeze": "^2.0",
