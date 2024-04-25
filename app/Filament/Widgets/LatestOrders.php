@@ -2,7 +2,10 @@
 
 namespace App\Filament\Widgets;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Filament\Resources\OrderResource;
+use App\Models\Order;
 use Faker\Provider\ar_EG\Text;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -38,20 +41,6 @@ class LatestOrders extends BaseWidget
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn ($record) => match ($record->status) {
-                        'new' => 'info',
-                        'processing' => 'warning',
-                        'shipped' => 'success',
-                        'delivered' => 'success',
-                        'canceled' => 'danger',
-                    })
-                    ->icon(fn ($record) => match ($record->status) {
-                        'new' => 'heroicon-m-sparkles',
-                        'processing' => 'heroicon-m-arrow-path',
-                        'shipped' => 'heroicon-m-truck',
-                        'delivered' => 'heroicon-m-check-badge',
-                        'canceled' => 'heroicon-m-x',
-                    })
                     ->sortable(),
 
                 TextColumn::make('payment_method')

@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "blade-ui-kit/blade-heroicons": "^2.3",
+        "codeat3/blade-evil-icons": "^1.5",
         "epayco/epayco-php": "^1.6",
         "filament/filament": "3.2.57",
         "jantinnerezo/livewire-alert": "^3.0",
@@ -14,6 +16,7 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
+        "owenvoke/blade-fontawesome": "^2.6",
         "stripe/stripe-php": "^14.3"
     },
     "require-dev": {
