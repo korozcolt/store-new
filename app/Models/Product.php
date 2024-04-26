@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\GlobalStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,10 @@ class Product extends Model
 
     protected $casts = [
         'images' => 'array',
+        'is_active' => GlobalStatus::class,
+        'is_featured' => GlobalStatus::class,
+        'in_stock' => GlobalStatus::class,
+        'on_sale' => GlobalStatus::class,
     ];
 
     public function category()

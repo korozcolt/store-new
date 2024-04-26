@@ -51,13 +51,13 @@ enum PaymentStatus: string implements HasLabel, HasColor, HasIcon
     public function getColorHtml(): string{
         return match ($this) {
             self::PAID => 'bg-green-500',
-            self::PENDING => 'bg-amber-500',
+            self::PENDING => 'bg-slate-600',
             self::FAILED => 'bg-red-500',
         };
     }
 
     public function getLabelHtml(): string
     {
-        return '<span class="py-1 px-3 rounded shadow ' . $this->getColorHtml() . ' text-white">' . $this->getLabelText() . '</span>';
+        return '<span class="py-1 px-3 rounded ' . $this->getColorHtml() . ' shadow text-white">' . $this->getLabelText() . '</span>';
     }
 }

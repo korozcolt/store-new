@@ -67,7 +67,7 @@ enum OrderStatus: string implements HasLabel, HasColor, HasIcon
     {
         return match ($this) {
             self::NEW => 'bg-gray-500',
-            self::PROCESSING => 'bg-amber-500',
+            self::PROCESSING => 'bg-slate-600',
             self::COMPLETED => 'bg-green-500',
             self::CANCELLED => 'bg-red-500',
             self::DELIVERED => 'bg-blue-500',
@@ -77,6 +77,6 @@ enum OrderStatus: string implements HasLabel, HasColor, HasIcon
 
     public function getLabelHtml(): ?string
     {
-        return '<span class="py-1 px-3 rounded text-white shadow '.$this->getColorHtml().'">'.$this->getLabelText().'</span>';
+        return '<span class="py-1 px-3 rounded '.$this->getColorHtml().' text-white shadow">'.$this->getLabelText().'</span>';
     }
 }

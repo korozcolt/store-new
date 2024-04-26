@@ -27,6 +27,8 @@ class BrandResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?string $navigationGroup = 'Products Management';
+
     public static function form(Form $form): Form
     {
         return $form
