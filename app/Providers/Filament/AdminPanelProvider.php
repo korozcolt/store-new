@@ -3,7 +3,6 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Resources\OrderResource\Widgets\OrderStats;
-use App\Models\Order;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;

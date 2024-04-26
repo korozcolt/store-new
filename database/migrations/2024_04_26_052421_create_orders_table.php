@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('grand_total', 10, 2);
-            $table->string('payment_method')->nullable();
             $table->string('payment_status')->nullable();
+            $table->foreignId('payment_method_id')->constrained()->onDelete('cascade');
             $table->enum('status',['new', 'processing', 'shipped', 'delivered', 'canceled'])->default('new');
-            $table->string('currency')->nullable();
+            $table->foreignId('currency_id')->constrained()->onDelete('cascade');
             $table->decimal('shipping_amount',10,2)->nullable();
-            $table->string('shipping_method')->nullable();
+            $table->foreignId('shipping_method_id')->constrained()->onDelete('cascade');
             $table->text('notes')->nullable();
             $table->timestamps();
         });
