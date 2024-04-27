@@ -34,4 +34,18 @@ class SiteSetting extends Model
         'taxes' => 'float',
     ];
 
+    public function currencies()
+    {
+        return $this->hasOne(Currency::class);
+    }
+
+    public function payment_methods()
+    {
+        return $this->hasOne(PaymentMethod::class);
+    }
+
+    public function shipping_methods()
+    {
+        return $this->hasOne(ShippingMethod::class);
+    }
 }

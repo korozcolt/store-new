@@ -4,6 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SiteSettingResource\Pages;
 use App\Filament\Resources\SiteSettingResource\RelationManagers;
+use App\Filament\Resources\SiteSettingResource\RelationManagers\CurrenciesRelationManager;
+use App\Filament\Resources\SiteSettingResource\RelationManagers\PaymentsMethodsRelationManager;
+use App\Filament\Resources\SiteSettingResource\RelationManagers\ShippingMethodsRelationManager;
 use App\Models\SiteSetting;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
@@ -55,19 +58,15 @@ class SiteSettingResource extends Resource
                 Section::make('Social Information')->schema([
                     Forms\Components\TextInput::make('facebook')
                         ->label('Facebook')
-                        ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('twitter')
                         ->label('Twitter')
-                        ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('instagram')
                         ->label('Instagram')
-                        ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('whatsapp')
                         ->label('Whatsapp')
-                        ->required()
                         ->maxLength(255),
                 ])->columnSpan(2),
             ]),
@@ -122,7 +121,9 @@ class SiteSettingResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CurrenciesRelationManager::class,
+            PaymentsMethodsRelationManager::class,
+            ShippingMethodsRelationManager::class,
         ];
     }
 

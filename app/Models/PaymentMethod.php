@@ -23,4 +23,9 @@ class PaymentMethod extends Model
         'options' => 'array',
         'fee' => 'float',
     ];
+
+    public function siteSetting()
+    {
+        return $this->belongsTo(SiteSetting::class);
+    }
 }

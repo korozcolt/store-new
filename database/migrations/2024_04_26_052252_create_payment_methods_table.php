@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->float('fee')->default(0);
+            $table->decimal('fee',10,2)->default(0);
             $table->json('options')->nullable();
+            $table->foreignId('site_setting_id')->constrained('site_settings')->onDelete('cascade');
             $table->timestamps();
         });
     }

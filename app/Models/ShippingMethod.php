@@ -22,4 +22,9 @@ class ShippingMethod extends Model
         'status' => GlobalStatus::class,
     ];
 
+    public function siteSetting()
+    {
+        return $this->belongsTo(SiteSetting::class);
+    }
+
 }

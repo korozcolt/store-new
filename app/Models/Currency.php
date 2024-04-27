@@ -20,4 +20,9 @@ class Currency extends Model
     protected $casts = [
         'is_active' => GlobalStatus::class,
     ];
+
+    public function siteSetting()
+    {
+        return $this->belongsTo(SiteSetting::class);
+    }
 }

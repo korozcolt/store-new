@@ -11,14 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('currencies', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('code');
-            $table->string('symbol');
-            $table->boolean('is_active')->default(true);
+        Schema::table('shipping_methods', function (Blueprint $table) {
             $table->foreignId('site_setting_id')->constrained('site_settings')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
@@ -27,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('currencies');
+        Schema::table('shipping_methods', function (Blueprint $table) {
+            $table->dropForeign(['site_setting_id']);
+            $table->dropColumn('site_setting_id');
+        });
     }
 };
