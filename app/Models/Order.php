@@ -14,6 +14,8 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'grand_total',
+        'sub_total',
+        'tax_amount',
         'payment_method',
         'payment_status',
         'status',

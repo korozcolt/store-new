@@ -29,6 +29,7 @@ class CheckoutPage extends Component
 
     public function mount(){
         $cart_items = CartManagement::getCartItemsFromCookies();
+
         if(count($cart_items) == 0){
             return redirect('/products');
         }
@@ -117,10 +118,17 @@ class CheckoutPage extends Component
     public function render()
     {
         $cart_items = CartManagement::getCartItemsFromCookies();
-        $grand_total = CartManagement::calculateGrandTotal($cart_items);
+        $subtotal = CartManagement::calculateSubtotal($cart_items);
+        $taxes = CartManagement::calculateTaxes($cart_items);
+        $shipping = 0; // Aquí debes calcular los gastos de envío según tu lógica
+
+        $grand_total = $subtotal + $taxes + $shipping;
 
         return view('livewire.checkout-page', [
             'cart_items' => $cart_items,
+            'sub_total' => $subtotal,
+            'tax_amount' => $taxes,
+            'shipping_amount' => $shipping,
             'grand_total' => $grand_total,
         ]);
     }

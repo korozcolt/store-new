@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('grand_total', 10, 2);
+            $table->decimal('sub_total', 10, 2);
+            $table->decimal('tax_amount', 10, 2);
             $table->string('payment_status')->nullable();
             $table->foreignId('payment_method_id')->constrained()->onDelete('cascade');
             $table->enum('status',['new', 'processing', 'shipped', 'delivered', 'canceled'])->default('new');
