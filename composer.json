@@ -18,6 +18,8 @@
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
         "owenvoke/blade-fontawesome": "^2.6",
+        "predis/predis": "2.0",
+        "resend/resend-laravel": "^0.12.0",
         "stripe/stripe-php": "^14.3"
     },
     "require-dev": {

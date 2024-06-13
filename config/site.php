@@ -32,4 +32,8 @@ return [
     'about_us' => 'Texto sobre tu empresa o negocio',
     'terms_and_conditions' => 'Términos y condiciones de uso',
     'privacy_policy' => 'Política de privacidad',
+
+    // Configuración de Correo
+    'subject' => 'Asunto del correo',
+
 ];

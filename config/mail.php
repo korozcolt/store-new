@@ -18,6 +18,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Resend Configurations
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the mailer used by the resend command. This is
+    | useful when you want to resend failed emails. You may specify which
+    | mailer you're using for your resend command below.
+    |
+    */
+
+    'resend' => [
+        'transport' => 'resend',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Mailer Configurations
     |--------------------------------------------------------------------------
     |

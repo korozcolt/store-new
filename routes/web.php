@@ -16,11 +16,16 @@ use App\Livewire\ProductDetailPage;
 use App\Livewire\ProductsPage;
 use App\Livewire\SuccessPage;
 use Illuminate\Support\Facades\Route;
-
+use Resend\Laravel\Facades\Resend;
 
 // ----- Test Page ------
 Route::get('/test', function () {
-    return SiteSetting::getTaxes(15000);
+    Resend::emails()->send([
+        'from' => 'Acme <onboarding@resend.dev>',
+        'to' => 'ing.korozco@gmail.com',
+        'subject' => 'Welcome to Acme!',
+        'html' => '<h1>Welcome to Acme!</h1>',
+    ]);
 });
 // ----- Pages ------
 Route::get('/', HomePage::class);
