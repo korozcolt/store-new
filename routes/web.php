@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\SiteSetting;
 use App\Livewire\Auth\ForgotPasswordPage;
 use App\Livewire\Auth\LoginPage;
 use App\Livewire\Auth\RegisterPage;
@@ -16,6 +17,12 @@ use App\Livewire\ProductsPage;
 use App\Livewire\SuccessPage;
 use Illuminate\Support\Facades\Route;
 
+
+// ----- Test Page ------
+Route::get('/test', function () {
+    return SiteSetting::getTaxes(15000);
+});
+// ----- Pages ------
 Route::get('/', HomePage::class);
 Route::get('/categories', CategoriesPage::class);
 Route::get('/products', ProductsPage::class);

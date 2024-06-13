@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('code');
             $table->string('symbol');
             $table->boolean('is_active')->default(true);
-            $table->foreignId('site_setting_id')->constrained('site_settings')->onDelete('cascade');
             $table->timestamps();
         });
     }

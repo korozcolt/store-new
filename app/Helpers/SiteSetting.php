@@ -2,36 +2,56 @@
 
 namespace App\Helpers;
 
-use App\Models\SiteSetting as SiteSettingModel;
 use Illuminate\Support\Number;
 
-class SiteSettingHelper
+class SiteSetting
 {
-    public static function get()
-    {
-        $setting = SiteSettingModel::first();
-        return $setting;
-    }
 
     public static function getLogo()
     {
-        $setting = SiteSettingModel::first();
-        return $setting->logo;
+        $logo = config('site.logo');
+        return $logo;
     }
 
     public static function getFavicon()
     {
-        $setting = SiteSettingModel::first();
-        return $setting->favicon;
+        $favicon = config('site.favicon');
+        return $favicon;
+    }
+
+    public static function getTitle()
+    {
+        $title = config('site.name');
+        return $title;
+    }
+
+    //email
+    public static function getEmail()
+    {
+        $email = config('site.email');
+        return $email;
+    }
+
+    //phone
+    public static function getPhone()
+    {
+        $phone = config('site.phone');
+        return $phone;
     }
 
     public static function getTaxes($value)
     {
-        $setting = SiteSettingModel::where('is_active',true)->first();
-        if ($setting->taxes == 0) {
+        $taxes = Number::format(config('site.taxes'), 2);
+        $is_active = config('site.taxes_active');
+
+        if (!$is_active) {
             return 0;
         }
 
-        return $value * ($setting->taxes / 100);
+        if ($taxes == 0) {
+            return 0;
+        }
+
+        return $value * ($taxes / 100);
     }
 }

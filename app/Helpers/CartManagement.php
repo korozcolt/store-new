@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Product;
 use Illuminate\Support\Facades\Cookie;
-use App\Helpers\SiteSettingHelper;
+use App\Helpers\SiteSetting as SiteSettingHelper;
 
 class CartManagement{
     //add item to cart
