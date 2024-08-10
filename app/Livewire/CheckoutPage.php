@@ -9,6 +9,7 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Resend\Laravel\Facades\Resend;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 
@@ -111,7 +112,13 @@ class CheckoutPage extends Component
         $order->items()->createMany($cart_items);
         CartManagement::clearCartItemsFromCookies();
 
-        Mail::to(request()->user())->send(new OrderPlaced($order));
+        //Mail::to(request()->user())->send(new OrderPlaced($order));
+        Resend::emails()->send([
+            'from' => config('site.name').'<'.config('site.email').'>',
+            'to' => [request()->user()->email],
+            'subject' => config('site.subject'),
+            'html' => (new OrderPlaced($order))->render(),
+        ]);
         return redirect($redirect_url);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\GlobalStatus;
+use App\Helpers\SiteSetting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,7 @@ class Product extends Model
         'slug',
         'description',
         'price',
+        'has_taxes',
         'images',
         'sku',
         'sale_price',
@@ -47,6 +49,12 @@ class Product extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function getPriceWithTaxesAttribute()
+    {
+        $basePrice = $this->sale_price ?? $this->price;
+        return $basePrice + SiteSetting::getTaxes($basePrice);
     }
 
     protected static function boot()

@@ -74,23 +74,39 @@ class ProductResource extends Resource
                 Group::make()->schema([
                     Section::make('Price')->schema([
                         TextInput::make('price')
-                            ->label('Price')
-                            ->required()
-                            ->prefix('COP $')
-                            ->type('number')
-                            ->mask(RawJs::make('$money($input)'))
-                            ->stripCharacters(',')
-                            ->step('0.01')
-                            ->placeholder('0.00'),
+                        ->label('Price')
+                        ->required()
+                        ->prefix('COP $')
+                        ->type('number')
+                        ->mask(RawJs::make('$money($input)'))
+                        ->stripCharacters(',')
+                        ->step('0.01')
+                        ->placeholder('0.00')
+                        ->reactive()
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function ($state, Set $set) {
+                            static::updatePriceWithTaxes($state, $set);
+                        }),
 
-                        TextInput::make('sale_price')
-                            ->label('Sale Price')
-                            ->type('number')
-                            ->prefix('COP $')
-                            ->mask(RawJs::make('$money($input)'))
-                            ->stripCharacters(',')
-                            ->step('0.01')
-                            ->placeholder('0.00'),
+                    TextInput::make('sale_price')
+                        ->label('Sale Price')
+                        ->type('number')
+                        ->prefix('COP $')
+                        ->mask(RawJs::make('$money($input)'))
+                        ->stripCharacters(',')
+                        ->step('0.01')
+                        ->placeholder('0.00')
+                        ->reactive()
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function ($state, Set $set) {
+                            static::updatePriceWithTaxes($state, $set);
+                        }),
+
+                        TextInput::make('price_with_taxes')
+                            ->label('Price with Taxes')
+                            ->disabled()
+                            ->default(fn ($record) => $record ? $record->price_with_taxes : 0)
+                            ->prefix('COP $'),
                     ]),
 
                     Section::make('Associations')->schema([
@@ -124,10 +140,33 @@ class ProductResource extends Resource
                             ->required(),
 
                         Toggle::make('on_sale')
-                            ->required()
+                            ->required(),
+
+                        Toggle::make('has_taxes')
+                            ->label('Has Taxes')
+                            ->required(),
                     ]),
                 ])->columnSpan(1)
             ])->columns(3);
+    }
+
+    public static function updatePriceWithTaxes($state, Set $set)
+    {
+        $price = $state['price'] ?? 0;
+        $salePrice = $state['sale_price'] ?? 0;
+
+        $basePrice = $salePrice > 0 ? $salePrice : $price;
+
+        $taxes = config('site.taxes', 0);
+        $isActive = config('site.taxes_active', false);
+
+        $priceWithTaxes = $basePrice;
+
+        if ($isActive && $taxes > 0) {
+            $priceWithTaxes += $basePrice * ($taxes / 100);
+        }
+
+        $set('price_with_taxes', number_format($priceWithTaxes, 2));
     }
 
     public static function table(Table $table): Table
@@ -156,6 +195,12 @@ class ProductResource extends Resource
                     ->sortable(),
                 TextColumn::make('sale_price')
                     ->label('Sale Price')
+                    ->money('COP')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('price_with_taxes')
+                    ->label('Price with Taxes')
                     ->money('COP')
                     ->searchable()
                     ->sortable(),
@@ -242,6 +287,16 @@ class ProductResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): string|array|null
+    {
+        return 'warning';
     }
 
     public static function getPages(): array
